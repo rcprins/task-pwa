@@ -1,0 +1,13 @@
+<div class="container">
+  <div *ngIf="!isOnline" class="offline-banner">
+    You are currently offline
+  </div>
+  <app-tasks></app-tasks>
+  <task-execution></task-execution>
+  <mat-expansion-panel>
+      <task-execution></task-execution>
+  </mat-expansion-panel>
+  <app-barcode-scanner></app-barcode-scanner>
+
+  </div>
+

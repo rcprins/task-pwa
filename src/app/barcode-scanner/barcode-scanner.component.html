@@ -1,0 +1,23 @@
+<br>
+<br>
+<br>
+<br>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+        BARCODE READER
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <video id="video" width="300" height="200" (click)="startScanning()"></video>
+    </mat-card-content>
+    <mat-card-content>
+        <label for="assemblyId"></label><input id="assemblyId" value="{{scannedResult}}"/>
+    </mat-card-content>
+    <mat-toolbar>
+        <mat-card-actions>
+            <button mat-flat-button type="button"  (click)="startScanning()">Start barcode scanning</button>
+            <button mat-flat-button type="button"  (click)="stopScanning()">Stop barcode scanning</button>
+        </mat-card-actions>
+      </mat-toolbar>
+  </mat-card>
