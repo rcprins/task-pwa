@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "notes-pwa": {
+    "task-pwa": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/notes-pwa",
+            "outputPath": "dist/task-pwa",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -61,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "notes-pwa:build:production"
+              "buildTarget": "task-pwa:build:production"
             },
             "development": {
-              "buildTarget": "notes-pwa:build:development"
+              "buildTarget": "task-pwa:build:development"
             }
           },
           "defaultConfiguration": "development"

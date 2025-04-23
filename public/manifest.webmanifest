@@ -1,6 +1,6 @@
 {
-  "name": "notes-pwa",
-  "short_name": "notes-pwa",
+  "name": "task-pwa",
+  "short_name": "task-pwa",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",

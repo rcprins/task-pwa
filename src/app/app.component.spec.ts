@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'notes-pwa' title`, () => {
+  it(`should have the 'task-pwa' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('notes-pwa');
+    expect(app.title).toEqual('task-pwa');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, notes-pwa');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, task-pwa');
   });
 });
