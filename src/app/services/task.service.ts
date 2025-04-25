@@ -1,9 +1,9 @@
 import { Injectable, HostListener } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { Task } from './task.model';
+import { Task } from '../models/task.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TaskExecutionService } from './task-execution.service';
-import { LOCAL_STORE_TASK } from './local-database-definitions';
+import { LOCAL_STORE_TASK } from '../local-database-definitions';
 import { Service } from './service';
 
 @Injectable({

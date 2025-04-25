@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BrowserMultiFormatReader } from '@zxing/library';
-import * as QRCode from 'qrcode';
+// import * as QRCode from 'qrcode';
 
 
 @Component({

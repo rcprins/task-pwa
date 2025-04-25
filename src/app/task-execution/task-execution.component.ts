@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Task, TaskState } from '../task.model';
-import { TaskExecutionService } from '../task-execution.service';
+import { Task, TaskState } from '../models/task.model';
+import { TaskExecutionService } from '../services/task-execution.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'task-execution',
@@ -17,7 +18,6 @@ export class TaskExecutionComponent {
   
   ngOnInit(): void {
     console.log('TasksComponent initialized');
-//    this.taskExecutionService.getTasks().then((tasks) => {
     this.taskExecutionService.getTasks().subscribe((tasks) => {
         this.tasks = tasks;
     });
@@ -33,15 +33,11 @@ export class TaskExecutionComponent {
         });
       }
     )
-    // this.taskExecutionService.getTasks().then((tasks) => {
-    //   this.tasks = tasks.sort((a, b) => {
-    //     return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-    //   });
-    // });
   }
 
   createTask(): void {
     const task: Task = {
+      id: uuidv4(),
       title: "Task",
       content: this.newTask.trim(),
       timestamp: new Date(),

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Task } from './task.model';
+import { Task } from '../models/task.model';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Observable } from 'rxjs/internal/Observable';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { firstValueFrom, from } from 'rxjs';
-import { REMOTE_STORE_TASK } from './local-database-definitions';
+import { REMOTE_STORE_TASK } from '../local-database-definitions';
 
 
 

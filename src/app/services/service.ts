@@ -1,6 +1,6 @@
 import { NgxIndexedDBService } from "ngx-indexed-db";
 import { Observable } from "rxjs";
-import { LocalEntity } from "./local-entity";
+import { LocalEntity } from "../models/local-entity";
 
 export abstract class Service<T extends LocalEntity> {
 
@@ -50,7 +50,6 @@ export abstract class Service<T extends LocalEntity> {
 
     syncAll() {
         if (navigator.onLine) {
-            debugger;
             this.getAllLocal().subscribe((localEntities: T[]) => {
                 const unsyncedLocalEntities = localEntities.filter(localEntity => !localEntity.synced);
                 for (const localEntity of unsyncedLocalEntities) {

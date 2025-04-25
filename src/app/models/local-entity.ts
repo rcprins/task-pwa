@@ -1,4 +1,4 @@
 export interface LocalEntity {
-    id?: number;
+    id: string;
     synced: boolean;
 }

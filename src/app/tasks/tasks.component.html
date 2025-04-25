@@ -1,5 +1,5 @@
-<mat-tab-group #tabGroup (selectedTabChange)="reloadTasks($event)">
-  <mat-tab label="TaskList" >
+<mat-tab-group #tabGroup (selectedTabChange)="onTabChange($event)">
+  <mat-tab label="List" >
      <table mat-table [dataSource]="taskDatasource" class="mat-elevation-z8">
        <ng-container matColumnDef="id">
          <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -52,8 +52,15 @@
         </mat-toolbar>
     </mat-card>
   </mat-tab>
-  <mat-tab label="Scanning" >
-    <app-barcode-scanner></app-barcode-scanner>
+  <mat-tab label="Assistance" >
+    <mat-card>
+      <app-barcode-scanner #barcodeScanner></app-barcode-scanner>
+      <mat-toolbar>
+          <mat-card-actions>
+            <button mat-flat-button type="button"  (click)="join()">Join</button>
+          </mat-card-actions>
+        </mat-toolbar>
+    </mat-card>
   </mat-tab>
   <mat-tab label="Backend" >
     <task-execution></task-execution>

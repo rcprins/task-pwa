@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TaskService } from '../task.service';
-import { Task, TaskState } from '../task.model';
-import { TaskExecutionService } from '../task-execution.service';
-import { MatButton } from '@angular/material/button';
+import { TaskService } from '../services/task.service';
+import { Task, TaskState } from '../models/task.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { BarcodeScannerComponent } from '../barcode-scanner/barcode-scanner.component';
 
 
 @Component({
@@ -14,9 +13,12 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
   standalone:false
 })
 export class TaskComponent implements OnInit {
+
   @ViewChild('tabGroup')
   tabGroup!: MatTabGroup;
 
+  @ViewChild('barcodeScanner')
+  barcodeScanner!: BarcodeScannerComponent;
   
   TaskState = TaskState;
   newTask = '';
@@ -45,10 +47,21 @@ export class TaskComponent implements OnInit {
     console.log('Tab group ready:', this.tabGroup);
     // Example: start on the second tab
     this.tabGroup.selectedIndex = 1;
+    console.log("Scanner is initalized ", this.barcodeScanner);
   }
 
-  reloadTasks(event: MatTabChangeEvent) {
-    if (event.index == 0 ) this.loadRemoteTasks();
+  onTabChange(event: MatTabChangeEvent) {
+    this.barcodeScanner.stopScanning()
+    switch (event.index) {
+      case 0:
+        this.loadRemoteTasks();
+        break;
+      case 2:
+        this.barcodeScanner.startScanning()
+        break
+      default:
+        break;
+    }
   }
     
 
@@ -118,8 +131,16 @@ export class TaskComponent implements OnInit {
 
   getQRCodeValue(): string {
     if (this.activeTask)
-      return this.activeTask.id + this.activeTask?.content
+      return JSON.stringify(this.activeTask);
     return '';
+  }
+
+  join() {
+    var task: Task = JSON.parse(this.barcodeScanner.scannedResult);
+    task.state = TaskState.New;
+    this.taskService.add(task);
+    alert("Task has been added to your list.");
+    this.barcodeScanner.scannedResult = '';
   }
     
 

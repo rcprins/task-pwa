@@ -1,18 +1,6 @@
-<mat-card>
-    <mat-card-content>
-        <video id="video" width="300" height="200" (click)="startScanning()"></video>
-    </mat-card-content>
-    <mat-card-content>
-        <label for="assemblyId">Assembly ID</label><input id="assemblyId" value="{{scannedResult}}"/>
-    </mat-card-content>
-    <mat-card-content>
-        <label for="assemblyId">log messages</label><textarea id="messageConsole">{{logMessages}}</textarea>
-    </mat-card-content>
-    <mat-toolbar>
-        <mat-card-actions>
-            <button mat-flat-button type="button"  (click)="startScanning()">Start</button>
-            <button mat-flat-button type="button"  (click)="stopScanning()">Stop</button>
-            <button mat-flat-button type="button"  (click)="readNfcTag()">RFID</button>
-        </mat-card-actions>
-      </mat-toolbar>
-  </mat-card>
+<mat-card-content>
+    <video id="video" width="100%" height="100%" (click)="startScanning()"></video>
+</mat-card-content>
+<mat-card-content>
+    <label for="assemblyId">Result</label><textarea id="assemblyId" value="{{scannedResult}}" style="width:100%;height: 10em;" ></textarea>
+</mat-card-content>
