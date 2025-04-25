@@ -21,6 +21,7 @@
     "@angular/router": "^19.2.0",
     "@angular/service-worker": "^19.2.6",
     "@zxing/library": "^0.21.3",
+    "@zxing/ngx-scanner": "^19.0.0",
     "ngx-indexed-db": "^20.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

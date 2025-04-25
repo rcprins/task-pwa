@@ -13,24 +13,31 @@ export class TaskExecutionComponent {
   tasks: Task[] = [];
 
 
-  constructor(private taskExecitionService: TaskExecutionService) {}
+  constructor(private taskExecutionService: TaskExecutionService) {}
   
   ngOnInit(): void {
     console.log('TasksComponent initialized');
-    this.taskExecitionService.getTasks().then((tasks) => {
-      this.tasks = tasks;
+//    this.taskExecutionService.getTasks().then((tasks) => {
+    this.taskExecutionService.getTasks().subscribe((tasks) => {
+        this.tasks = tasks;
     });
-    this.taskExecitionService.watchTasks().subscribe(() => {
+    this.taskExecutionService.watchTasks().subscribe(() => {
       this.loadTasks();
     });
   }
 
   loadTasks(): void {
-    this.taskExecitionService.getTasks().then((tasks) => {
-      this.tasks = tasks.sort((a, b) => {
-        return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-      });
-    });
+    this.taskExecutionService.getTasks().subscribe((tasks) => {
+        this.tasks = tasks.sort((a, b) => {
+          return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+        });
+      }
+    )
+    // this.taskExecutionService.getTasks().then((tasks) => {
+    //   this.tasks = tasks.sort((a, b) => {
+    //     return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+    //   });
+    // });
   }
 
   createTask(): void {
@@ -42,12 +49,12 @@ export class TaskExecutionComponent {
       synced: false
     };
   
-    this.taskExecitionService.syncTask(task);
+    this.taskExecutionService.syncTask(task);
     this.newTask = '';
   }
 
   deleteTask(task: Task): void {
-    this.taskExecitionService.deleteTask(task);
+    this.taskExecutionService.deleteTask(task);
   }
 
 }

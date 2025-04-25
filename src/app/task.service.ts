@@ -4,20 +4,16 @@ import { Task } from './task.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TaskExecutionService } from './task-execution.service';
 import { LOCAL_STORE_TASK } from './local-database-definitions';
+import { Service } from './service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {
-
-  private taskChanges$ = new BehaviorSubject<void>(undefined);
-
+export class TaskService extends Service<Task> {
+  private taskChanges$ = new BehaviorSubject<Task[] | undefined>(undefined);
  
-  constructor(private dbService: NgxIndexedDBService, private taskExecutionService: TaskExecutionService) {
-    window.addEventListener('online', () => {
-        console.log('Syncing after getting online again')
-        this.syncTasks()
-      });
+  constructor(override dbService: NgxIndexedDBService, private taskExecutionService: TaskExecutionService) {
+    super(dbService, LOCAL_STORE_TASK);
 
     taskExecutionService.watchTasks().subscribe(() => {
       console.log("Updating local database with changes from remote.")
@@ -25,89 +21,35 @@ export class TaskService {
     }); 
   }
 
+  override getAllRemote(): Observable<Task[]> {
+    return this.taskExecutionService.getTasks();
+  }
+
+  override updateInBackend(localEntity: Task): void {
+    this.taskExecutionService.syncTask(localEntity);
+  }
+
   watchTasks() {
     return this.taskChanges$.asObservable();
   }
 
-  syncTasks() {
-    if (!navigator.onLine) return;
-    this.dbService.getAll<Task>(LOCAL_STORE_TASK).subscribe(localTasks => {
-      const unsyncedNotes = localTasks.filter(task => !task.synced);
-      
-      // Simulate sync to server
-      for (const localTask of localTasks) {
-        this.fakeServerSync(localTask).then(() => {
-          localTask.synced = true;
-          this.dbService.update(LOCAL_STORE_TASK, localTask);
-        });
-      }
-    });
-  }
-
   updateLocalDB() {
     let newTasks: Task[] = [];
-    this.taskExecutionService.getTasks().then((remoteTasks) => {
-      this.dbService.getAll<Task>(LOCAL_STORE_TASK).subscribe((tasks) => {
+    this.taskExecutionService.getTasks().subscribe((remoteTasks) => {
+      this.dbService.getAll<Task>(LOCAL_STORE_TASK).subscribe((localTasks) => {
         remoteTasks.forEach((remoteTask) => {
           if (remoteTask.id) {
-            console.log("pushing task");
-            newTasks.push(remoteTask);
+            if (!localTasks.find(localTask => localTask.id == remoteTask.id)) {
+              console.log("pushing task: " + remoteTask.id);
+              newTasks.push(remoteTask);
+            }
           }
-        })
+        });
         this.dbService.bulkAdd(LOCAL_STORE_TASK, newTasks).subscribe(() => {
-          console.log("Remote tasks added with bulk api");
-          this.taskChanges$.next();          
+          console.log("Local tasks updated with the result of the remote tasks update.");
+          this.taskChanges$.next(newTasks);          
         })
       })
     })
   }
-  // this.dbService.getByID<Task>(LOCAL_STORE_TASK, remoteTask.id).subscribe((localTask) => {
-  //   if (!localTask) {
-  //     this.dbService.add<Task>(LOCAL_STORE_TASK, remoteTask).subscribe({
-  //       next: (key) => {
-  //         console.log('Added with key:', key);
-  //       },
-  //       error: (err) => {
-  //         console.error('Add failed:', err);
-  //       }
-  //     });
-  //   }
-  // })
-
-
-  addTask(note: Task): Observable<Task> {
-    const observableNote = this.dbService.add<Task>(LOCAL_STORE_TASK, note);
-    this.syncTasks();
-    return observableNote;
-  }
-
-  updateTask(task: Task): Observable<Task> {
-    const observableTask = this.dbService.update<Task>(LOCAL_STORE_TASK, task);
-    observableTask.subscribe((tasks) => {
-      this.syncTasks();
-    })
-    return observableTask;
-  }
-
-  getTasks(): Observable<Task[]> {
-    return this.dbService.getAll<Task>(LOCAL_STORE_TASK);
-  }
-
-  deleteTask(task: Task): Observable<unknown> {
-    if (!task.id) throw Error("Cannot delete task as it has has no id");
-    return this.dbService.delete<Task>(LOCAL_STORE_TASK, task.id);
-  }
-
-  fakeServerSync(task: Task): Promise<void> {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        this.taskExecutionService.syncTask(task);
-        resolve();
-      }, 1000); 
-    });
-  }
-
-
-
-
 }

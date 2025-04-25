@@ -14,7 +14,8 @@ import { LOCAL_STORE_TASK, LOCAL_STORE_TASK_CHANGES, REMOTE_STORE_TASK, REMOTE_S
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
-
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTabsModule} from '@angular/material/tabs';
 
 const dbConfig: DBConfig = {
   name: 'ControlDB',
@@ -58,6 +59,8 @@ const dbConfig: DBConfig = {
     MatToolbarModule,
     MatButtonModule,
     MatExpansionModule,
+    MatGridListModule,
+    MatTabsModule,
     NgxIndexedDBModule.forRoot(dbConfig), 
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production

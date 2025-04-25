@@ -1,3 +1,5 @@
+import { LocalEntity } from "./local-entity";
+
 export enum TaskState {
   New = 'New',
   InProgress = 'In progres',
@@ -5,11 +7,9 @@ export enum TaskState {
   Completed = 'Completed'
 }
 
-export interface Task {
-    id?: number;
+export interface Task extends LocalEntity {
     title: string;
     content: string;
     timestamp: Date;
-    synced?: boolean;
     state: TaskState;
   }  

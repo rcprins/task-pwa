@@ -4,6 +4,7 @@ import { Task, TaskState } from '../task.model';
 import { TaskExecutionService } from '../task-execution.service';
 import { MatButton } from '@angular/material/button';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 
 
 @Component({
@@ -13,8 +14,8 @@ import { MatTableDataSource } from '@angular/material/table';
   standalone:false
 })
 export class TaskComponent implements OnInit {
-  @ViewChild('renderButton') 
-  renderButton = {} as MatButton;
+  @ViewChild('tabGroup')
+  tabGroup!: MatTabGroup;
 
   
   TaskState = TaskState;
@@ -29,20 +30,33 @@ export class TaskComponent implements OnInit {
   constructor(private taskService: TaskService) {
     taskService.watchTasks().subscribe(() => {
       console.log("local DB updated. Loading tasks..");
-     this.loadTasks();
+     this.loadLocalTasks();
     })
   }
 
   ngOnInit(): void {
     console.log('TasksComponent initialized');
-    this.loadTasks();
+    this.loadRemoteTasks();
     // this.activeTask = this.tasks[0];
   }
 
+  ngAfterViewInit() {
+    // Now it's safe to use tabGroup
+    console.log('Tab group ready:', this.tabGroup);
+    // Example: start on the second tab
+    this.tabGroup.selectedIndex = 1;
+  }
 
+  reloadTasks(event: MatTabChangeEvent) {
+    debugger;
+    if (event.index == 0 ) this.loadRemoteTasks();
+  }
+    
 
   highlight(id: number) {
     this.selectedRowIndex = id
+    debugger;
+//    this.tabGroup.selectedIndex = 1;
   }
 
   start(task: Task): void {
@@ -62,54 +76,48 @@ export class TaskComponent implements OnInit {
   finish(task: Task): void {
     task.state = TaskState.Completed;
     this.update(task);
+    this.tabGroup.selectedIndex = 0;
+    this.loadRemoteTasks();
   }
 
-  loadTasks(): void {
-    this.taskService.getTasks().subscribe((tasks) => {
-       this.tasks = tasks.filter((task) => task.state != TaskState.Completed); 
-       this.taskDatasource = new MatTableDataSource<Task>(this.tasks);
-       if (this.tasks.length > 0) {
-        this.activeTask = this.tasks[0];
-        this.selectedRowIndex = 1;         
-       } else {
-        this.activeTask = undefined;
-        this.selectedRowIndex = -1;         
-       }
+  loadLocalTasks(): void {
+    this.taskService.getAllLocal().subscribe((tasks) => {
+       this.applyToUI(tasks);
     });
+  }
+
+  loadRemoteTasks(): void {
+    this.taskService.getAll().subscribe((tasks) => {
+       this.applyToUI(tasks);
+    });
+  }
+
+  private applyToUI(tasks: Task[]) {
+    this.tasks = tasks.filter((task) => task.state != TaskState.Completed);
+    debugger;
+    this.taskDatasource = new MatTableDataSource<Task>(this.tasks);
+    if (this.tasks.length > 0) {
+      this.activeTask = this.tasks[0];
+      this.selectedRowIndex = 1;
+    } else {
+      this.activeTask = undefined;
+      this.selectedRowIndex = -1;
+    }
   }
 
   deleteTask(task: Task): void {
     this.taskService.deleteTask(task).subscribe(() => {
-      this.loadTasks();
+      this.loadLocalTasks();
     });
   }
 
   private update(task: Task): void {
     this.activeTask = task.state == TaskState.Completed ? undefined : task;
     task.timestamp = new Date();
-    this.taskService.updateTask(task).subscribe(() => {
-      this.loadTasks();
+    this.taskService.update(task).subscribe(() => {
+      this.loadLocalTasks();
     });
   }
 
-  async readNfcTag(task: Task) {
-    if ('NDEFReader' in window) {
-      const ndef: any = new (window as any).NDEFReader();
-      try {
-        await ndef.scan();
-        console.log("Scan started successfully.");
-        ndef.onreading = (event: { message: any; }) => {
-          const message = event.message;
-          for (const record of message.records) {
-            console.log("Record type:", record.recordType);
-            console.log("Data:", new TextDecoder().decode(record.data));
-          }
-        };
-      } catch (error) {
-        console.error("Error reading NFC tag:", error);
-      }
-    } else {
-      console.warn("Web NFC is not supported on this device/browser.");
-    }
-  }
+
 }

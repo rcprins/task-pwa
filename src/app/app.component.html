@@ -3,11 +3,18 @@
     You are currently offline
   </div>
   <app-tasks></app-tasks>
-  <task-execution></task-execution>
   <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Backend</mat-panel-title>
+      <mat-panel-description>Status of the tasks</mat-panel-description>
+    </mat-expansion-panel-header>
       <task-execution></task-execution>
   </mat-expansion-panel>
-  <app-barcode-scanner></app-barcode-scanner>
-
-  </div>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Barcode scanning </mat-panel-title>
+    </mat-expansion-panel-header>
+      <app-barcode-scanner></app-barcode-scanner>
+  </mat-expansion-panel>
+</div>
 

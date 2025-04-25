@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { TaskService } from './task.service';
 
 @Component({
@@ -8,9 +8,9 @@ import { TaskService } from './task.service';
   standalone:false
 })
 export class AppComponent {
-
   title = 'Mobile tracking app'; 
   isOnline: boolean = navigator.onLine;
+
   
   constructor(private notesService: TaskService) {}
 
@@ -20,4 +20,5 @@ export class AppComponent {
   updateOnlineStatus() {
     this.isOnline = navigator.onLine;
   }
+
 }
