@@ -21,22 +21,22 @@ export class TaskExecutionService {
   }
 
   syncTask(task: Task): void {
-    debugger;
       firstValueFrom(this.dbService.update<Task>(REMOTE_STORE_TASK, task)).then(() => {
         console.log("Updating local entity with id:'" + task.id + "' updated in backend");
         this.taskChanges$.next();
       });
   }
 
-  // getTasks(): Promise<Task[]> {
-  //   return firstValueFrom(this.dbService.getAll<Task>(REMOTE_STORE_TASK));
-  // }
   getTasks(): Observable<Task[]> {
     return this.dbService.getAll<Task>(REMOTE_STORE_TASK);
   }
 
   deleteTask(task: Task): void {
-    if (task.id) this.dbService.delete<Task>(REMOTE_STORE_TASK, task.id);
+    alert("Task '" + task.id + "' will be deleted.");
+    if (task.id) {
+      this.dbService.delete<Task>(REMOTE_STORE_TASK, task.id);
+      alert("Task '" + task.id + "' is deleted.");
+    }
   }
 
 }

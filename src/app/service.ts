@@ -7,7 +7,7 @@ export abstract class Service<T extends LocalEntity> {
     constructor(protected dbService: NgxIndexedDBService, private local_db_table_name: string) {
             
         window.addEventListener('online', () => {
-            console.log('Syncing after getting online again');
+            console.log("Syncing after getting online again '" + navigator.onLine + "'");
             this.syncAll()
         });
     }
@@ -24,7 +24,6 @@ export abstract class Service<T extends LocalEntity> {
         localEntity.synced = false;
         const observableTask = this.dbService.update<T>(this.local_db_table_name, localEntity);
         observableTask.subscribe((task) => {
-            debugger;
           this.sync(task);
         })
         return observableTask;
@@ -40,34 +39,41 @@ export abstract class Service<T extends LocalEntity> {
     getAllLocal(): Observable<T[]> {
         return this.dbService.getAll<T>(this.local_db_table_name);
     }
-    
+
     getAll(): Observable<T[]> {
-        // return this.dbService.getAll<T>(this.local_db_table_name);
         if (navigator.onLine) {
             return this.getAllRemote();
         } else {    
-            return this.dbService.getAll<T>(this.local_db_table_name);
+            return this.getAllLocal();
         }
     }
 
     syncAll() {
-        if (!navigator.onLine) return;       
-        this.getAll().subscribe((localEntities: T[]) => {
-          const unsyncedNotes = localEntities.filter(localEntity => !localEntity.synced);
-          
-          for (const localEntity of localEntities) {
-            this.sync(localEntity);
-          }
-        });
+        if (navigator.onLine) {
+            debugger;
+            this.getAllLocal().subscribe((localEntities: T[]) => {
+                const unsyncedLocalEntities = localEntities.filter(localEntity => !localEntity.synced);
+                for (const localEntity of unsyncedLocalEntities) {
+                  this.sync(localEntity);
+                }
+              });      
+        }
     }
 
     sync(localEntity: T) {
-        if (!navigator.onLine) return;
-        if (localEntity.synced) return;
-            this.backendSync(localEntity).then(() => {
-            localEntity.synced = true;
-            this.dbService.update(this.local_db_table_name, localEntity);
-        });
+        if (navigator.onLine) {
+            console.log("Local entity synced: '" + localEntity.id + "'");
+            if (localEntity.synced) return;
+                this.backendSync(localEntity).then(() => {
+                console.log("Updating sync status of local entity: '" + localEntity.id + "'");
+                localEntity.synced = true;
+                console.log("Updating sync status of local entity: '" + localEntity.id + "' '" + localEntity.synced + "'");
+                this.dbService.update(this.local_db_table_name, localEntity).subscribe({
+                    next: () => console.log('Updated!'),
+                    error: (err) => console.error('Update error', err)
+                  })
+            });                
+        }
     }
 
     abstract updateInBackend(localEntity:T):void;

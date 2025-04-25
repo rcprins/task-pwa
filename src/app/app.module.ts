@@ -16,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTabsModule} from '@angular/material/tabs';
+import { QrGeneratorComponent } from './qr-generator-component/qr-generator-component.component';
 
 const dbConfig: DBConfig = {
   name: 'ControlDB',
@@ -51,6 +52,7 @@ const dbConfig: DBConfig = {
     TaskExecutionComponent,
     BarcodeScannerComponent
   ],
+  exports: [QrGeneratorComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -61,6 +63,7 @@ const dbConfig: DBConfig = {
     MatExpansionModule,
     MatGridListModule,
     MatTabsModule,
+    QrGeneratorComponent,
     NgxIndexedDBModule.forRoot(dbConfig), 
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production

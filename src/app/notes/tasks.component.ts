@@ -48,15 +48,13 @@ export class TaskComponent implements OnInit {
   }
 
   reloadTasks(event: MatTabChangeEvent) {
-    debugger;
     if (event.index == 0 ) this.loadRemoteTasks();
   }
     
 
   highlight(id: number) {
     this.selectedRowIndex = id
-    debugger;
-//    this.tabGroup.selectedIndex = 1;
+    this.tabGroup.selectedIndex = 1;
   }
 
   start(task: Task): void {
@@ -94,7 +92,6 @@ export class TaskComponent implements OnInit {
 
   private applyToUI(tasks: Task[]) {
     this.tasks = tasks.filter((task) => task.state != TaskState.Completed);
-    debugger;
     this.taskDatasource = new MatTableDataSource<Task>(this.tasks);
     if (this.tasks.length > 0) {
       this.activeTask = this.tasks[0];
@@ -119,5 +116,11 @@ export class TaskComponent implements OnInit {
     });
   }
 
+  getQRCodeValue(): string {
+    if (this.activeTask)
+      return this.activeTask.id + this.activeTask?.content
+    return '';
+  }
+    
 
 }
