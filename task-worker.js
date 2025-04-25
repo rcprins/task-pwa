@@ -39,7 +39,6 @@ self.addEventListener('sync', event => {
   });
   
   async function syncTaskEvents() {
-    debugger;
     // const db = await openDB(); // Implement opening IndexedDB
     // const unsynced = await db.getAll('outbox'); // Replace with your logic
   
