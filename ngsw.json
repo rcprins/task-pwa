@@ -1,7 +1,7 @@
 {
   "configVersion": 1,
-  "timestamp": 1757409740616,
-  "index": "/index.html",
+  "timestamp": 1757410111080,
+  "index": "/task-pwa/index.html",
   "assetGroups": [
     {
       "name": "app",
@@ -11,17 +11,17 @@
         "ignoreVary": true
       },
       "urls": [
-        "/chunk-7J42HMC2.js",
-        "/chunk-AEA4IULM.js",
-        "/chunk-JMCYNIJM.js",
-        "/chunk-ULX4FHIR.js",
-        "/favicon.ico",
-        "/index.html",
-        "/main-JFEEXOX5.js",
-        "/manifest.webmanifest",
-        "/polyfills-FFHMD2TL.js",
-        "/styles-5D4CAD37.css",
-        "/task-worker.js"
+        "/task-pwa/chunk-7J42HMC2.js",
+        "/task-pwa/chunk-AEA4IULM.js",
+        "/task-pwa/chunk-JMCYNIJM.js",
+        "/task-pwa/chunk-ULX4FHIR.js",
+        "/task-pwa/favicon.ico",
+        "/task-pwa/index.html",
+        "/task-pwa/main-JFEEXOX5.js",
+        "/task-pwa/manifest.webmanifest",
+        "/task-pwa/polyfills-FFHMD2TL.js",
+        "/task-pwa/styles-5D4CAD37.css",
+        "/task-pwa/task-worker.js"
       ],
       "patterns": []
     },
@@ -33,39 +33,39 @@
         "ignoreVary": true
       },
       "urls": [
-        "/icons/icon-128x128.png",
-        "/icons/icon-144x144.png",
-        "/icons/icon-152x152.png",
-        "/icons/icon-192x192.png",
-        "/icons/icon-384x384.png",
-        "/icons/icon-512x512.png",
-        "/icons/icon-72x72.png",
-        "/icons/icon-96x96.png"
+        "/task-pwa/icons/icon-128x128.png",
+        "/task-pwa/icons/icon-144x144.png",
+        "/task-pwa/icons/icon-152x152.png",
+        "/task-pwa/icons/icon-192x192.png",
+        "/task-pwa/icons/icon-384x384.png",
+        "/task-pwa/icons/icon-512x512.png",
+        "/task-pwa/icons/icon-72x72.png",
+        "/task-pwa/icons/icon-96x96.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "/chunk-7J42HMC2.js": "0323dfd4c546b51f353b62684e0895eb2504d5c3",
-    "/chunk-AEA4IULM.js": "2b3f717c89d8a44ec5b261c8dcdc39a318d4c66e",
-    "/chunk-JMCYNIJM.js": "c6fb2daafeeaf479e23d9873b0bfa2642b58ee50",
-    "/chunk-ULX4FHIR.js": "0b1279ab1d2f2daa7e7fc350898d29583c472df4",
-    "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
-    "/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
-    "/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
-    "/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
-    "/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
-    "/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
-    "/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
-    "/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/index.html": "8b510a54e52fbb38c6ab31df81de2d5840bf9f6d",
-    "/main-JFEEXOX5.js": "904b9d22fee6426d71cc73fd666f7119042772bf",
-    "/manifest.webmanifest": "20731e4b4576966f78846a201aa7ed37152f4802",
-    "/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
-    "/styles-5D4CAD37.css": "d1a70fee837222040a2a6678a6f50f3c2667c9f2",
-    "/task-worker.js": "20004d2c38ee3f988fbbfa36b862866075ac5541"
+    "/task-pwa/chunk-7J42HMC2.js": "0323dfd4c546b51f353b62684e0895eb2504d5c3",
+    "/task-pwa/chunk-AEA4IULM.js": "2b3f717c89d8a44ec5b261c8dcdc39a318d4c66e",
+    "/task-pwa/chunk-JMCYNIJM.js": "c6fb2daafeeaf479e23d9873b0bfa2642b58ee50",
+    "/task-pwa/chunk-ULX4FHIR.js": "0b1279ab1d2f2daa7e7fc350898d29583c472df4",
+    "/task-pwa/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/task-pwa/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
+    "/task-pwa/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
+    "/task-pwa/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
+    "/task-pwa/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
+    "/task-pwa/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
+    "/task-pwa/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
+    "/task-pwa/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
+    "/task-pwa/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/task-pwa/index.html": "5745c87e0f4ad85a07755a3e2322d09435f2dabf",
+    "/task-pwa/main-JFEEXOX5.js": "904b9d22fee6426d71cc73fd666f7119042772bf",
+    "/task-pwa/manifest.webmanifest": "20731e4b4576966f78846a201aa7ed37152f4802",
+    "/task-pwa/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "/task-pwa/styles-5D4CAD37.css": "d1a70fee837222040a2a6678a6f50f3c2667c9f2",
+    "/task-pwa/task-worker.js": "20004d2c38ee3f988fbbfa36b862866075ac5541"
   },
   "navigationUrls": [
     {
