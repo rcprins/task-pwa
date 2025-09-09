@@ -1,1 +1,0 @@
-import{Ua as a,Va as n,lb as o,ya as t}from"./chunk-7J42HMC2.js";var l=class s{static \u0275fac=function(e){return new(e||s)};static \u0275cmp=t({type:s,selectors:[["assembly-task"]],decls:2,vars:0,template:function(e,i){e&1&&(a(0,"p"),o(1,"Assembly Task"),n())},encapsulation:2})};export{l as AssemblyTaskDetailsComponent};
