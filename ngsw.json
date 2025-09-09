@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1757416314240,
+  "timestamp": 1757420371955,
   "index": "/task-pwa/index.html",
   "assetGroups": [
     {
@@ -11,15 +11,15 @@
         "ignoreVary": true
       },
       "urls": [
-        "/task-pwa/chunk-5V4T4UFW.js",
         "/task-pwa/chunk-7J42HMC2.js",
         "/task-pwa/chunk-AQFRINSC.js",
         "/task-pwa/chunk-JMCYNIJM.js",
         "/task-pwa/chunk-OVPLOBLN.js",
+        "/task-pwa/chunk-UVXXNGVX.js",
         "/task-pwa/chunk-VYQP2UTW.js",
         "/task-pwa/favicon.ico",
         "/task-pwa/index.html",
-        "/task-pwa/main-AGW72PGC.js",
+        "/task-pwa/main-LIPG2BWO.js",
         "/task-pwa/manifest.webmanifest",
         "/task-pwa/polyfills-FFHMD2TL.js",
         "/task-pwa/styles-5D4CAD37.css",
@@ -49,11 +49,11 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/task-pwa/chunk-5V4T4UFW.js": "2cc142f0d87da41be39793db6cffc76b72587745",
     "/task-pwa/chunk-7J42HMC2.js": "0323dfd4c546b51f353b62684e0895eb2504d5c3",
     "/task-pwa/chunk-AQFRINSC.js": "8beb515a7415f57ce7aeea652093049ceff39131",
     "/task-pwa/chunk-JMCYNIJM.js": "c6fb2daafeeaf479e23d9873b0bfa2642b58ee50",
     "/task-pwa/chunk-OVPLOBLN.js": "ec83dbb1cffcd593ec70bcaf1cd912444150f2da",
+    "/task-pwa/chunk-UVXXNGVX.js": "bf9ce3907ae01f2e59a25a647406081f2239a9ce",
     "/task-pwa/chunk-VYQP2UTW.js": "d82575bc1ecf0b41468312b1a126d33f25178038",
     "/task-pwa/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
     "/task-pwa/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
@@ -64,8 +64,8 @@
     "/task-pwa/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/task-pwa/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/task-pwa/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/task-pwa/index.html": "86cd5d126858c100453ce283da9ee532e84439b9",
-    "/task-pwa/main-AGW72PGC.js": "99f11d26310e42db4ea4f5ca64a40c1a52db425b",
+    "/task-pwa/index.html": "3b6b0e5b1ac86b34ba8b42b65a13224592a62f78",
+    "/task-pwa/main-LIPG2BWO.js": "ebe53f0f2772e180c171e0cd37668443b7e2a1f7",
     "/task-pwa/manifest.webmanifest": "20731e4b4576966f78846a201aa7ed37152f4802",
     "/task-pwa/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
     "/task-pwa/styles-5D4CAD37.css": "d1a70fee837222040a2a6678a6f50f3c2667c9f2",
