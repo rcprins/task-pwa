@@ -15,6 +15,7 @@
           "options": {
             "outputPath": "dist/task-pwa",
             "index": "src/index.html",
+            "baseHref": "/task-pwa/",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -47,7 +48,8 @@
                 }
               ],
               "outputHashing": "all",
-              "serviceWorker": "ngsw-config.json"
+              "serviceWorker": "ngsw-config.json",
+               "baseHref": "/task-pwa/" 
             },
             "development": {
               "optimization": false,
@@ -84,7 +86,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+            "src/manifest.webmanifest"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",

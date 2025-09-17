@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { TaskService } from '../services/task.service';
 import { Task, TaskState } from '../models/task.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { BarcodeScannerComponent } from '../barcode-scanner/barcode-scanner.component';
+import { pluginLoader } from '../task-plugins/plugin-loader';
 
 
 @Component({
@@ -12,13 +13,16 @@ import { BarcodeScannerComponent } from '../barcode-scanner/barcode-scanner.comp
   styleUrls: ['./tasks.component.css'],
   standalone:false
 })
-export class TaskComponent implements OnInit {
+export class TaskComponentOld implements OnInit {
+
+   @ViewChild('taskDetails', { read: ViewContainerRef, static: false })
+  taskDetailsContainer!: ViewContainerRef;
 
   @ViewChild('tabGroup')
   tabGroup!: MatTabGroup;
 
   @ViewChild('barcodeScanner')
-  barcodeScanner!: BarcodeScannerComponent;
+  private barcodeScanner!: BarcodeScannerComponent;
   
   TaskState = TaskState;
   newTask = '';
@@ -27,7 +31,7 @@ export class TaskComponent implements OnInit {
   selectedRowIndex = -1;
   taskDatasource = new MatTableDataSource<Task>();
 
-  public displayedColumns = ["id", 'content', 'state', 'timestamp'];
+  public displayedColumns = ["id", 'type', 'state', 'timestamp'];
 
   constructor(private taskService: TaskService) {
     taskService.watchTasks().subscribe(() => {
@@ -39,7 +43,6 @@ export class TaskComponent implements OnInit {
   ngOnInit(): void {
     console.log('TasksComponent initialized');
     this.loadRemoteTasks();
-    // this.activeTask = this.tasks[0];
   }
 
   ngAfterViewInit() {
@@ -56,6 +59,10 @@ export class TaskComponent implements OnInit {
       case 0:
         this.loadRemoteTasks();
         break;
+      case 1:
+        debugger;
+        this.loadTaskDetails();
+        break;
       case 2:
         this.barcodeScanner.startScanning()
         break
@@ -63,7 +70,6 @@ export class TaskComponent implements OnInit {
         break;
     }
   }
-    
 
   highlight(id: number) {
     this.selectedRowIndex = id
@@ -142,6 +148,13 @@ export class TaskComponent implements OnInit {
     alert("Task has been added to your list.");
     this.barcodeScanner.scannedResult = '';
   }
-    
 
+  private async loadTaskDetails() {
+    if (this.activeTask == undefined) return;
+    const plugin = await pluginLoader.loadPlugin(this.activeTask?.type);
+    const componentType = plugin.getTaskDetailsComponent();
+    this.taskDetailsContainer.clear();
+    const component = this.taskDetailsContainer.createComponent(componentType);
+    component.setInput('task', this.activeTask)
+  }
 }

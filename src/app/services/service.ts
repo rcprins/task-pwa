@@ -1,5 +1,5 @@
 import { NgxIndexedDBService } from "ngx-indexed-db";
-import { Observable } from "rxjs";
+import { defaultIfEmpty, from, Observable, of, switchMap, tap } from "rxjs";
 import { LocalEntity } from "../models/local-entity";
 
 export abstract class Service<T extends LocalEntity> {
@@ -11,6 +11,33 @@ export abstract class Service<T extends LocalEntity> {
             this.syncAll()
         });
     }
+    
+    private getByIdLocal(id: string): Observable<T | undefined> {
+        
+        return from(this.dbService.getByID<T>(this.local_db_table_name, id));
+    }
+
+getById(id: string): Observable<T> {
+
+  return this.getByIdLocal(id).pipe(
+
+    defaultIfEmpty(undefined),
+    switchMap(localEntity => {
+         debugger;
+      if (localEntity !== undefined) {
+       debugger;
+        return of(localEntity);
+      } else {
+        debugger;
+        return this.getByIdRemote(id).pipe(
+          tap(remoteEntity => this.add(remoteEntity))
+        );
+      }
+    })
+  );
+}
+
+    abstract getByIdRemote(id:string):Observable<T>;
 
     add(localEntity: T): Observable<T> {
         localEntity.synced = false;

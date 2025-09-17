@@ -6,9 +6,10 @@ export const REMOTE_STORE_TASK_CHANGES = 'remote-task-changes';
 
 export const taskSchema = [
     { name: 'version', keypath: 'version', options: { unique: false } },
-    { name: 'content', keypath: 'content', options: { unique: false } },
+    { name: 'type', keypath: 'type', options: { unique: false } },
     { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
-    { name: 'state', keypath: 'state', options: { unique: false } }
+    { name: 'state', keypath: 'state', options: { unique: false } },
+    { name: 'workItems', keypath: 'workItems', options: { unique: false } }
   ]
   
 export const taskChangesSchema = [

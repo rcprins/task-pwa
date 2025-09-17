@@ -5,9 +5,9 @@
          <th mat-header-cell *matHeaderCellDef>ID</th>
          <td mat-cell *matCellDef="let task">{{task.id}}</td>
        </ng-container>
-       <ng-container matColumnDef="content">
+       <ng-container matColumnDef="type">
          <th mat-header-cell *matHeaderCellDef>TYPE</th>
-         <td mat-cell *matCellDef="let task">{{task.content}}</td>
+         <td mat-cell *matCellDef="let task">{{task.type}}</td>
        </ng-container>
        <ng-container matColumnDef="state">
          <th mat-header-cell *matHeaderCellDef>STATE</th>
@@ -29,7 +29,7 @@
       </mat-card-content>
       <mat-card-content>
         <label>TYPE:</label>
-        {{activeTask.content}}
+        {{activeTask.type}}
       </mat-card-content>
       <mat-card-content>
         <label>STATUS:</label>
@@ -38,6 +38,11 @@
       <mat-card-content>
         <label>CHANGED:     </label>
         {{activeTask.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}
+      </mat-card-content>
+      <mat-card-content>
+        <mat-card>
+          <ng-container #taskDetails></ng-container>
+        </mat-card>
       </mat-card-content>
       <mat-card-content>
         <app-qr-generator [value]="getQRCodeValue()"></app-qr-generator>

@@ -1,13 +1,13 @@
 <div class="container">
     <label for="cars">Choose a taskType:</label>
     <select [(ngModel)]="newTask" rows="1" placeholder="Write task type here...">
-      <option value="Position">Position</option>
+      <option value="Positioning">Position</option>
       <option value="Fitting">Fitting</option>
       <option value="Welding">Welding</option>
-      <option value="Picking Material">Picking material</option>
-      <option value="Picking Parts">Picking parts</option>
+      <option value="PickingMaterial">Picking material</option>
+      <option value="PickingParts">Picking parts</option>
       <option value="Inspection">Inpection</option>
-      <option value="Loading Material">Loading material</option>
+      <option value="LoadingMaterial">Loading material</option>
 
     </select>
     <button (click)="createTask()" [disabled]="!newTask.trim()">DISPATCH</button>
@@ -16,7 +16,7 @@
       <li *ngFor="let task of tasks">
         <div>
           <span>{{ task.id }} | </span>
-          <span>{{ task.content }} | </span>
+          <span>{{ task.type }} | </span>
           <span>{{ task.state }} | </span>
           <span>{{ task.timestamp | date:'short' }} | </span>
           <button (click)="deleteTask(task)">Delete</button>

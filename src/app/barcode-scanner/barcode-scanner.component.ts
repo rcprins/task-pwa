@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { BrowserMultiFormatReader } from '@zxing/library';
 // import * as QRCode from 'qrcode';
 
@@ -7,7 +8,10 @@ import { BrowserMultiFormatReader } from '@zxing/library';
   selector: 'app-barcode-scanner',
   templateUrl: './barcode-scanner.component.html',
   styleUrl: './barcode-scanner.component.css',
-  standalone: false
+  standalone: true,
+  imports: [
+    MatCardModule
+  ]
 })
 export class BarcodeScannerComponent implements OnInit {
   scanner: BrowserMultiFormatReader;

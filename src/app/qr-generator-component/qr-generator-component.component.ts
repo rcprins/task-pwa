@@ -4,6 +4,7 @@ import * as QRCode from 'qrcode';
 @Component({
   selector: 'app-qr-generator',
   template: '<canvas #canvas></canvas>',
+  standalone: true
 })
 
 export class QrGeneratorComponent implements OnChanges {

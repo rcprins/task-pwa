@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@angular/service-worker": "^19.2.6",
+    "@capacitor/android": "^7.2.0",
     "@zxing/library": "^0.21.3",
     "@zxing/ngx-scanner": "^19.0.0",
     "ngx-indexed-db": "^20.0.0",

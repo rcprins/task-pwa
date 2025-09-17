@@ -10,14 +10,20 @@ import { Service } from './service';
   providedIn: 'root'
 })
 export class TaskService extends Service<Task> {
+  override getByIdRemote<T>(id: string): Observable<T> {
+    throw new Error('Method not implemented.');
+  }
+
   private taskChanges$ = new BehaviorSubject<Task[] | undefined>(undefined);
  
   constructor(override dbService: NgxIndexedDBService, private taskExecutionService: TaskExecutionService) {
     super(dbService, LOCAL_STORE_TASK);
 
     taskExecutionService.watchTasks().subscribe(() => {
-      console.log("Updating local database with changes from remote.")
-      this.updateLocalDB();
+      if (navigator.onLine) {
+        console.log("Updating local database with changes from remote.")
+        this.updateLocalDB();
+      }
     }); 
   }
 
