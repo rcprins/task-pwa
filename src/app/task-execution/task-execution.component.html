@@ -11,7 +11,7 @@
 
     </select>
     <button (click)="createTask()" [disabled]="!newTask.trim()">DISPATCH</button>
-  
+    <button (click)="deleteAllTasks()" >DELETE ALL</button>
     <ul>
       <li *ngFor="let task of tasks">
         <div>

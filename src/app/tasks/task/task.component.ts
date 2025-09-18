@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MatToolbar } from '@angular/material/toolbar';
 import { QrGeneratorComponent } from '../../qr-generator-component/qr-generator-component.component';
 import { MatButtonModule } from '@angular/material/button';
+import { TabComponent } from '../../interfaces/tab-component.inferface';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ]
 })
-export class TaskComponent2 implements OnInit {
+export class TaskComponent2 implements OnInit, TabComponent {
 
   _task = {} as Task;
 
@@ -46,18 +47,24 @@ export class TaskComponent2 implements OnInit {
 
   constructor(private taskService: TaskService) {}
 
+  selected(): void {
+    //NOOP
+  }
+
+  deselected(): void {
+    //NOOP
+  }
+
   ngOnInit(): void {
     console.log('TasksComponent initialized');
   }
 
   start(): void {
-    this.task.state = TaskState.InProgress;
-    this.update(this.task);
+    this.taskService.start(this.task);
   }
 
   pause(): void {
-    this.task.state = TaskState.Paused;
-    this.update(this.task);
+    this.taskService.pause(this.task);
   }
 
   resume(): void {
@@ -65,18 +72,13 @@ export class TaskComponent2 implements OnInit {
   }
 
   finish(): void {
-    this.task.state = TaskState.Completed;
-    this.update(this.task);
-    this.taskFinished.emit(this.task);
+    this.taskService.finish(this.task).subscribe(() => {
+      this.taskFinished.emit(this.task);
+    });
   }
 
   deleteTask(): void {
-    this.taskService.deleteTask(this.task);
-  }
-
-  private update(task: Task): void {
-    task.timestamp = new Date();
-    this.taskService.update(task);
+    this.taskService.deleteEntity(this.task);
   }
 
   getQRCodeValue(): string {

@@ -1,10 +1,12 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { TaskService } from './services/task.service';
 import { Task } from './models/task.model';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { TaskComponent2 } from './tasks/task/task.component';
 import { TaskListComponent } from './tasks/list/task-list.component';
 import { AdhocTaskComponent } from './tasks/adhoc/adhoc-task/adhoc-task.component';
+import { TabComponent } from './interfaces/tab-component.inferface';
+import { TaskExecutionComponent } from './task-execution/task-execution.component';
 
 @Component({
   selector: 'app-root',
@@ -19,14 +21,19 @@ export class AppComponent {
   @ViewChild('tabGroup')
   tabGroup!: MatTabGroup;
 
-  @ViewChild('taskList')
-  taskList!: TaskListComponent;
+  @ViewChild('taskListTabComponent')
+  taskListTabComponent!: TaskListComponent;
 
-  @ViewChild('taskComponent')
-  taskComponent!: TaskComponent2;
+  @ViewChild('taskTabComponent')
+  taskTabComponent!: TaskComponent2;
 
-  @ViewChild('adhocTaskComponent')
-  adhocTaskComponent!:AdhocTaskComponent;
+  @ViewChild('adhocTaskTabComponent')
+  adhocTaskTabComponent!:AdhocTaskComponent;
+
+   @ViewChild('backendTabComponent')
+  backendTabComponent!:TaskExecutionComponent;
+
+  private _activeTabComponent?: TabComponent;
 
   constructor(private notesService: TaskService) {}
 
@@ -37,27 +44,50 @@ export class AppComponent {
   }
 
   handleTaskSelected(task: Task) {
-    this.taskComponent.task = task;
+    this.taskTabComponent.task = task;
     this.tabGroup.selectedIndex = 1;
   }
 
   handleTaskFinished(task:Task) {
-    debugger;
-    this.tabGroup.selectedIndex = 0;
+    // this.tabGroup.selectedIndex = 0;
+    this.setNextTaskComponentInput();
+
   }
 
+  setNextTaskComponentInput() {
+    this.taskListTabComponent.getFirstTask().subscribe(task => {
+      this.taskTabComponent.task = task;
+    });
+   }
+
   onTabChange(event: MatTabChangeEvent) {
-    this.adhocTaskComponent.stopScanning()
+    if (this._activeTabComponent != undefined) this._activeTabComponent.deselected();
     switch (event.index) {
       case 0:
-        debugger;
-        this.taskList.activate();
+        this.taskListTabComponent.selected();
+        this._activeTabComponent = this.taskListTabComponent;
+        break;
+      case 1: 
+        this._activeTabComponent = this.taskTabComponent;
+        this.setTaskComponentInput();
+        this.taskTabComponent.selected();
         break;
       case 2:
-        this.adhocTaskComponent.startScanning()
+        this._activeTabComponent = this.adhocTaskTabComponent;
+        this.adhocTaskTabComponent.selected()
         break
-      default:
+      case 3:
+        this._activeTabComponent = this.backendTabComponent;
+        this.backendTabComponent.selected();
         break;
+    }
+  }
+  setTaskComponentInput() {
+    if (this.taskTabComponent.task.id == undefined) {
+      this.taskListTabComponent.getFirstTask().subscribe(task => {
+        this.taskTabComponent.task = task;
+      })
+      
     }
   }
 }

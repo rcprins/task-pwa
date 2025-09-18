@@ -4,16 +4,16 @@
   </div>
   <mat-tab-group #tabGroup (selectedTabChange)="onTabChange($event)" >
     <mat-tab label="List" >
-      <task-list #taskList (taskSelected)="handleTaskSelected($event)"></task-list>
+      <task-list #taskListTabComponent (taskSelected)="handleTaskSelected($event)"></task-list>
     </mat-tab>
     <mat-tab label="Task">
-      <task #taskComponent (taskFinished)="handleTaskFinished($event)"></task>
+      <task #taskTabComponent (taskFinished)="handleTaskFinished($event)"></task>
     </mat-tab>
     <mat-tab label="Assistance" >
-      <adhoc-task #adhocTaskComponent ></adhoc-task>
+      <adhoc-task #adhocTaskTabComponent ></adhoc-task>
     </mat-tab>
     <mat-tab label="Backend" >
-      <task-execution></task-execution>
+      <task-execution #backendTabComponent></task-execution>
     </mat-tab>
   </mat-tab-group>
 </div>

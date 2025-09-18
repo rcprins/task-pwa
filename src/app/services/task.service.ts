@@ -1,61 +1,58 @@
-import { Injectable, HostListener } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { Task } from '../models/task.model';
+import { Task, TaskState } from '../models/task.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TaskExecutionService } from './task-execution.service';
 import { LOCAL_STORE_TASK } from '../local-database-definitions';
-import { Service } from './service';
+import { ResilientService } from './resilient-service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService extends Service<Task> {
+export class TaskService extends ResilientService<Task> {
+
+  start(task: Task): void {
+    task.state = TaskState.InProgress;
+    this.update(task);
+  }
+  
+  pause(task: Task): void {
+    task.state = TaskState.Paused;
+    this.update(task);
+  }
+
+  finish(task: Task): Observable<Task>  {
+    task.state = TaskState.Completed;
+    return this.update(task);
+  }
+
+  override update(task: Task): Observable<Task> {
+    task.timestamp = new Date();
+    return super.update(task);
+  }
+  
   override getByIdRemote<T>(id: string): Observable<T> {
     throw new Error('Method not implemented.');
   }
 
-  private taskChanges$ = new BehaviorSubject<Task[] | undefined>(undefined);
- 
   constructor(override dbService: NgxIndexedDBService, private taskExecutionService: TaskExecutionService) {
     super(dbService, LOCAL_STORE_TASK);
-
-    taskExecutionService.watchTasks().subscribe(() => {
-      if (navigator.onLine) {
-        console.log("Updating local database with changes from remote.")
-        this.updateLocalDB();
-      }
-    }); 
   }
 
-  override getAllRemote(): Observable<Task[]> {
-    return this.taskExecutionService.getTasks();
+  override getAllRemoteInternal(): Observable<Task[]> {
+    return this.taskExecutionService.getActiveTasks();
   }
 
-  override updateInBackend(localEntity: Task): void {
-    this.taskExecutionService.syncTask(localEntity);
+  override updateInBackend(localTask: Task): void {
+    this.taskExecutionService.syncTask(localTask);
+  }
+
+  override handleUpdatedEntity(task: Task): void {
+    if (task.state == TaskState.Completed) this.deleteEntity(task);
   }
 
   watchTasks() {
-    return this.taskChanges$.asObservable();
+    return this.watchEntities();
   }
 
-  updateLocalDB() {
-    let newTasks: Task[] = [];
-    this.taskExecutionService.getTasks().subscribe((remoteTasks) => {
-      this.dbService.getAll<Task>(LOCAL_STORE_TASK).subscribe((localTasks) => {
-        remoteTasks.forEach((remoteTask) => {
-          if (remoteTask.id) {
-            if (!localTasks.find(localTask => localTask.id == remoteTask.id)) {
-              console.log("pushing task: " + remoteTask.id);
-              newTasks.push(remoteTask);
-            }
-          }
-        });
-        this.dbService.bulkAdd(LOCAL_STORE_TASK, newTasks).subscribe(() => {
-          console.log("Local tasks updated with the result of the remote tasks update.");
-          this.taskChanges$.next(newTasks);          
-        })
-      })
-    })
-  }
 }

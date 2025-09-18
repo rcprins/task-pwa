@@ -3,6 +3,7 @@ import { Task, TaskState } from '../models/task.model';
 import { WorkItem, MaterialWorkItem, AssemblyWorkItem } from '../models/work-item.model';
 import { TaskExecutionService } from '../services/task-execution.service';
 import { v4 as uuidv4 } from 'uuid';
+import { TabComponent } from '../interfaces/tab-component.inferface';
 
 @Component({
   selector: 'task-execution',
@@ -10,7 +11,8 @@ import { v4 as uuidv4 } from 'uuid';
   styleUrls: ['./task-execution.component.css'],
   standalone: false
 })
-export class TaskExecutionComponent {
+export class TaskExecutionComponent implements TabComponent{
+
   newTask = '';
   tasks: Task[] = [];
 
@@ -25,6 +27,13 @@ export class TaskExecutionComponent {
     this.taskExecutionService.watchTasks().subscribe(() => {
       this.loadTasks();
     });
+  }
+
+  selected(): void {
+    //NOOP
+  }
+  deselected(): void {
+    //NOOP
   }
 
   loadTasks(): void {
@@ -84,6 +93,10 @@ export class TaskExecutionComponent {
 
   deleteTask(task: Task): void {
     this.taskExecutionService.deleteTask(task);
+  }
+
+  deleteAllTasks() {
+    this.taskExecutionService.deleteAllTasks()
   }
 
 }

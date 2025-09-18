@@ -5,6 +5,7 @@ import { TaskService } from '../../../services/task.service';
 import { MatCardActions, MatCardModule } from '@angular/material/card';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatButton } from '@angular/material/button';
+import { TabComponent } from '../../../interfaces/tab-component.inferface';
 
 @Component({
   selector: 'adhoc-task',
@@ -19,7 +20,7 @@ import { MatButton } from '@angular/material/button';
   templateUrl: './adhoc-task.component.html',
   styleUrl: './adhoc-task.component.css'
 })
-export class AdhocTaskComponent {
+export class AdhocTaskComponent implements TabComponent{
 
   @ViewChild('barcodeScanner')
   private barcodeScanner!: BarcodeScannerComponent;
@@ -27,11 +28,11 @@ export class AdhocTaskComponent {
   constructor(private taskService: TaskService) {
   }
 
-  startScanning() {
-    debugger;
+  selected(): void {
     this.barcodeScanner.startScanning();
   }
-  stopScanning() {
+
+  deselected(): void {
     this.barcodeScanner.stopScanning();
   }
 

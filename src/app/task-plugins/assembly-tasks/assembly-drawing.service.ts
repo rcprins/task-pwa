@@ -1,10 +1,9 @@
-import { Injectable, HostListener, LOCALE_ID, NgZone } from '@angular/core';
-import { DBConfig, NgxIndexedDBModule, NgxIndexedDBService } from 'ngx-indexed-db';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Service } from '../../services/service';
-import { Task } from '../../models/task.model';
+import { Injectable } from '@angular/core';
+import { DBConfig, NgxIndexedDBService } from 'ngx-indexed-db';
+import { Observable, of } from 'rxjs';
 import { Drawing } from './drawing.model';
 import { v4 as uuidv4 } from 'uuid';
+import { ReadOnlyResilientService } from '../../services/readonly-resilient-service';
 
 const dbConfig: DBConfig = {
   name: 'DrawingDB',
@@ -23,27 +22,19 @@ const dbConfig: DBConfig = {
   ]
 };
 
-
-
 @Injectable({
   providedIn: 'root'
 })
-export class AssemblyDrawingService extends Service<Drawing> {
+export class AssemblyDrawingService extends ReadOnlyResilientService<Drawing> {
 
-
-  private taskChanges$ = new BehaviorSubject<Task[] | undefined>(undefined);
- 
   constructor() {
     super(new NgxIndexedDBService({ [dbConfig.name]: dbConfig },  window.indexedDB), "files");
   }
 
-  override getAllRemote(): Observable<Drawing[]> {
+  override getAllRemoteInternal(): Observable<Drawing[]> {
     throw new Error('Method not implemented.');
   }
-  override updateInBackend(localEntity: Drawing): void {
-    throw new Error('Method not implemented.');
-  }
-
+  
   override getByIdRemote(id: string): Observable<Drawing> {
     const drawing = {} as Drawing;
     drawing.id = uuidv4();
@@ -55,7 +46,7 @@ export class AssemblyDrawingService extends Service<Drawing> {
   }
 
   watchTasks() {
-    return this.taskChanges$.asObservable();
+    return this.watchEntities();
   }
 }
 
