@@ -14,6 +14,7 @@ import { map, Observable } from 'rxjs';
   styleUrl: './task-list.component.css'
 })
 export class TaskListComponent implements TabComponent{
+
   @Output() 
    taskSelected = new EventEmitter<Task>();
 
@@ -41,6 +42,10 @@ export class TaskListComponent implements TabComponent{
       map(tasks => tasks.filter(task => task.state != TaskState.Completed )),
       map(tasks => tasks[0])
     );
+  }
+
+  async hasTasks(): Promise<boolean> {
+    return await this.taskService.hasTasks();
   }
 
 

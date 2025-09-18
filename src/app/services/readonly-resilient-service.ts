@@ -1,5 +1,5 @@
 import { NgxIndexedDBService } from "ngx-indexed-db";
-import { BehaviorSubject, defaultIfEmpty, from, Observable, of, switchMap, tap } from "rxjs";
+import { BehaviorSubject, defaultIfEmpty, forkJoin, from, Observable, of, switchMap, tap } from "rxjs";
 import { LocalEntity } from "../models/local-entity";
 
 export abstract class ReadOnlyResilientService<T extends LocalEntity> {
@@ -24,36 +24,66 @@ export abstract class ReadOnlyResilientService<T extends LocalEntity> {
     return this.entityChanges$.asObservable();
   }
 
-  updateLocalDB():void {
-    let newEntities: T[] = [];
-    let deletedEntities: string[] = [];
-    this.getAllRemoteInternal().subscribe((remoteEntities) => {
-      this.dbService.getAll<T>(this.local_db_table_name).subscribe((localEntities) => {
-        remoteEntities.forEach((remoteEntity) => {
-          if (remoteEntity.id) {
-            if (!localEntities.find(localEntity => localEntity.id == remoteEntity.id)) {
-              console.log("pushing entity: " + remoteEntity.id);
-              newEntities.push(remoteEntity);
-            }
-          }
-        });
-        localEntities.forEach((localEntity) => {
-          if (localEntity.id) {
-            if (!remoteEntities.find((remoteEntity) => remoteEntity.id == localEntity.id)) {
-              deletedEntities.push(localEntity.id);
-            } 
-          }
-        });
-        this.dbService.bulkAdd(this.local_db_table_name, newEntities).subscribe(() => {
-          console.log("Local tasks updated with the result of the remote tasks update.");
-          this.entityChanges$.next(newEntities);
-        })
-        this.dbService.bulkDelete(this.local_db_table_name, deletedEntities).subscribe(() => {
-          this.entityChanges$.next(newEntities);
-        })
-      })
-    })
-  }
+  updateLocalDB(): void {
+  forkJoin({
+    remoteEntities: this.getAllRemoteInternal(),
+    localEntities: this.dbService.getAll<T>(this.local_db_table_name)
+  }).subscribe(({ remoteEntities, localEntities }) => {
+    const newEntities = remoteEntities.filter(
+      remote => remote.id && !localEntities.some(local => local.id === remote.id)
+    );
+
+    const deletedEntities = localEntities
+      .filter(local => local.id && !remoteEntities.some(remote => remote.id === local.id))
+      .map(entity => entity.id!);
+
+    const add$ = newEntities.length
+      ? this.dbService.bulkAdd(this.local_db_table_name, newEntities)
+      : of(null);
+
+    const delete$ = deletedEntities.length
+      ? this.dbService.bulkDelete(this.local_db_table_name, deletedEntities)
+      : of(null);
+
+    forkJoin([add$, delete$]).subscribe(() => {
+      console.log('Local tasks synced with remote.');
+      if (newEntities.length || deletedEntities.length) {
+        this.entityChanges$.next(newEntities);
+      }
+    });
+  });
+}
+
+  // updateLocalDB():void {
+  //   let newEntities: T[] = [];
+  //   let deletedEntities: string[] = [];
+  //   this.getAllRemoteInternal().subscribe((remoteEntities) => {
+  //     this.dbService.getAll<T>(this.local_db_table_name).subscribe((localEntities) => {
+  //       remoteEntities.forEach((remoteEntity) => {
+  //         if (remoteEntity.id) {
+  //           if (!localEntities.find(localEntity => localEntity.id == remoteEntity.id)) {
+  //             console.log("pushing entity: " + remoteEntity.id);
+  //             newEntities.push(remoteEntity);
+  //           }
+  //         }
+  //       });
+  //       localEntities.forEach((localEntity) => {
+  //         if (localEntity.id) {
+  //           if (!remoteEntities.find((remoteEntity) => remoteEntity.id == localEntity.id)) {
+  //             deletedEntities.push(localEntity.id);
+  //           } 
+  //         }
+  //       });
+  //       this.dbService.bulkAdd(this.local_db_table_name, newEntities).subscribe(() => {
+  //         console.log("Local tasks updated with the result of the remote tasks update.");
+  //         this.entityChanges$.next(newEntities);
+  //       })
+  //       this.dbService.bulkDelete(this.local_db_table_name, deletedEntities).subscribe(() => {
+  //         this.entityChanges$.next(newEntities);
+  //       })
+  //     })
+  //   })
+  // }
 
   private getByIdLocal(id: string): Observable<T | undefined> {
       

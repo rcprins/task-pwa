@@ -48,10 +48,17 @@ export class AppComponent {
     this.tabGroup.selectedIndex = 1;
   }
 
-  handleTaskFinished(task:Task) {
-    // this.tabGroup.selectedIndex = 0;
-    this.setNextTaskComponentInput();
-
+  async handleTaskFinished(task:Task) {
+    if (this.tabGroup.selectedIndex = 1) {
+      if (await this.taskListTabComponent.hasTasks()) {
+        if (confirm("Would you like to proceed with the next task?")) {
+          this.setNextTaskComponentInput();
+        }
+      } else {
+          alert("All done for today! Wishing you a relaxing evening.")
+          this.tabGroup.selectedIndex = 0;
+      }
+    } 
   }
 
   setNextTaskComponentInput() {

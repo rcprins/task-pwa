@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Task, TaskState } from '../models/task.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, map, Observable } from 'rxjs';
 import { TaskExecutionService } from './task-execution.service';
 import { LOCAL_STORE_TASK } from '../local-database-definitions';
 import { ResilientService } from './resilient-service';
@@ -31,6 +31,14 @@ export class TaskService extends ResilientService<Task> {
     return super.update(task);
   }
   
+async hasTasks(): Promise<boolean> {
+  const tasks = await firstValueFrom(
+    this.getAllLocal().pipe(
+      map(tasks => tasks.filter(task => task.state !== TaskState.Completed))
+    )
+  );
+  return tasks.length > 0;
+}
   override getByIdRemote<T>(id: string): Observable<T> {
     throw new Error('Method not implemented.');
   }
@@ -48,7 +56,9 @@ export class TaskService extends ResilientService<Task> {
   }
 
   override handleUpdatedEntity(task: Task): void {
-    if (task.state == TaskState.Completed) this.deleteEntity(task);
+    if (task.state == TaskState.Completed) {
+      this.deleteEntity(task);
+    }
   }
 
   watchTasks() {

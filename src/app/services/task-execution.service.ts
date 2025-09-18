@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { concatMap, firstValueFrom, from, map, mergeMap, toArray } from 'rxjs';
 import { REMOTE_STORE_TASK } from '../local-database-definitions';
-// import { platformBrowser } from '@angular/platform-browser';
 import { pluginLoader } from '../task-plugins/plugin-loader';
 
 @Injectable({
