@@ -1,34 +1,36 @@
 <mat-card *ngIf="task != undefined">
+  <!-- ID -->
   <mat-card-content>
-	<label>ID:</label>
-	{{task.id}}
+    <label>ID:</label> {{task.id}}
   </mat-card-content>
-  <mat-card-content>
-	<label>TYPE:</label>
-	{{task.type}}
+
+  <!-- TYPE / STATUS / CHANGED with QR code -->
+  <mat-card-content style="display: flex; align-items: flex-start; gap: 16px;">
+    <!-- Left: stacked labels -->
+    <div style="display: flex; flex-direction: column; height: 150px;">
+      <div><label>TYPE:</label> {{task.type}}</div>
+      <div><label>STATUS:</label> {{task.state}}</div>
+      <div><label>CHANGED:</label> {{task.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+    </div>
+
+    <!-- Right: smaller QR code -->
+    <div style="flex-shrink: 0; width: 80px; height: 80px;">
+      <app-qr-generator [value]="getQRCodeValue()"></app-qr-generator>
+    </div>
   </mat-card-content>
-  <mat-card-content>
-	<label>STATUS:</label>
-	{{task.state}}
-  </mat-card-content>
-  <mat-card-content>
-	<label>CHANGED:     </label>
-	{{task.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}
-  </mat-card-content>
-  <mat-card-content>
-	<mat-card>
-	  <ng-container #taskDetails></ng-container>
-	</mat-card>
-  </mat-card-content>
-  <mat-card-content>
-	<app-qr-generator [value]="getQRCodeValue()"></app-qr-generator>
-  </mat-card-content>
+
+  <!-- Task Details -->
+  <mat-card>
+    <ng-container #taskDetails></ng-container>
+  </mat-card>
+
+  <!-- Action Buttons -->
   <mat-toolbar>
-	  <mat-card-actions>
-      <button mat-flat-button type="button"  (click)="start()">Start</button>
-      <button mat-flat-button type="button"  (click)="pause()">Pause</button>
-      <button mat-flat-button type="button"  (click)="resume()">Resume</button>
+    <mat-card-actions>
+      <button mat-flat-button type="button" (click)="start()">Start</button>
+      <button mat-flat-button type="button" (click)="pause()">Pause</button>
+      <button mat-flat-button type="button" (click)="resume()">Resume</button>
       <button mat-flat-button type="button" (click)="finish()">Finish</button>
-	  </mat-card-actions>
-	</mat-toolbar>
+    </mat-card-actions>
+  </mat-toolbar>
 </mat-card>

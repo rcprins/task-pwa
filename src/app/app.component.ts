@@ -7,6 +7,8 @@ import { TaskListComponent } from './tasks/list/task-list.component';
 import { AdhocTaskComponent } from './tasks/adhoc/adhoc-task/adhoc-task.component';
 import { TabComponent } from './interfaces/tab-component.inferface';
 import { TaskExecutionComponent } from './task-execution/task-execution.component';
+import { AuthService } from './auth/authentication-service';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-root',
@@ -35,8 +37,14 @@ export class AppComponent {
 
   private _activeTabComponent?: TabComponent;
 
-  constructor(private notesService: TaskService) {}
+  apiData: any;
 
+  constructor(public auth: AuthService, private api: ApiService) {}
+
+  async callApi() {
+    this.apiData = await this.api.getData();
+  }
+  
   @HostListener('window:online')
   @HostListener('window:offline')
   updateOnlineStatus() {

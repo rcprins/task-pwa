@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, importProvidersFrom, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-// import { TaskComponent } from './tasks/tasks.component';
 import { TaskExecutionComponent } from './task-execution/task-execution.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -14,12 +13,16 @@ import { LOCAL_STORE_TASK, LOCAL_STORE_TASK_CHANGES, REMOTE_STORE_TASK, REMOTE_S
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatGridListModule} from '@angular/material/grid-list';
+import { MatTabsModule} from '@angular/material/tabs';
 import { QrGeneratorComponent } from './qr-generator-component/qr-generator-component.component';
 import { TaskListComponent } from "./tasks/list/task-list.component";
 import { TaskComponent2 } from './tasks/task/task.component';
 import { AdhocTaskComponent } from './tasks/adhoc/adhoc-task/adhoc-task.component';
+import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
+import { authConfig } from './auth/auth.config';
+import { AppRoutingModule } from './app-routing.module';
+import { provideHttpClient } from '@angular/common/http';
 
 const dbConfig: DBConfig = {
   name: 'ControlDB',
@@ -48,14 +51,27 @@ const dbConfig: DBConfig = {
 
 };
 
+export function initializeAuth(oauthService: OAuthService): () => Promise<void> {
+  return async () => {
+    oauthService.configure(authConfig);
+    await oauthService.loadDiscoveryDocumentAndTryLogin();
+
+    // Auto login if no valid token
+    if (!oauthService.hasValidAccessToken()) {
+      oauthService.initCodeFlow();
+    }
+  };
+}
+
 @NgModule({
   declarations: [
     AppComponent,
-    // TaskComponent,
-    TaskExecutionComponent,
+    TaskExecutionComponent
   ],
   exports: [QrGeneratorComponent],
   imports: [
+    AppRoutingModule,
+    OAuthModule.forRoot(),
     BrowserModule,
     FormsModule,
     MatTableModule,
@@ -75,7 +91,16 @@ const dbConfig: DBConfig = {
     AdhocTaskComponent,
     BarcodeScannerComponent
 ],
-  providers: [],
+  providers: [
+    provideHttpClient(),
+    importProvidersFrom(OAuthModule.forRoot()),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeAuth,
+      deps: [OAuthService],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

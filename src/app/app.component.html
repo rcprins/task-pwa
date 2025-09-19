@@ -1,7 +1,13 @@
+<!-- <router-outlet></router-outlet> -->
 <div class="container">
   <div *ngIf="!isOnline" class="offline-banner">
     You are currently offline
   </div>
+    <button *ngIf="!auth.isLoggedIn()" (click)="auth.login()">Login</button>
+    <button *ngIf="auth.isLoggedIn()" (click)="auth.logout()">Logout</button>
+
+    <div *ngIf="auth.isLoggedIn()">
+      <p>Welcome, {{ auth.getIdentityClaims()?.name }}</p>
   <mat-tab-group #tabGroup (selectedTabChange)="onTabChange($event)" >
     <mat-tab label="List" >
       <task-list #taskListTabComponent (taskSelected)="handleTaskSelected($event)"></task-list>
@@ -16,5 +22,8 @@
       <task-execution #backendTabComponent></task-execution>
     </mat-tab>
   </mat-tab-group>
+
+    </div>
+
 </div>
 
