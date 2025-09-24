@@ -8,14 +8,46 @@ export class AuthService {
     this.configure();
   }
 
-  private configure() {
+  private async configure() {
+    console.log("hostname = " + window.location.hostname);
     this.oauthService.configure(authConfig);
+       console.log("setupAutomaticSilentRefresh");
     this.oauthService.setupAutomaticSilentRefresh(); // refresh tokens automatically
-    this.oauthService.loadDiscoveryDocumentAndTryLogin(); // load endpoints & check login
+
+    // if (window.location.hostname === 'localhost') {
+    //   console.log("Local flow");
+    //   await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    // } else {
+    //   console.log("Production flow");
+    //   this.oauthService.tokenEndpoint = `${authConfig.issuer}/oauth2/token`;
+    //   this.oauthService.loginUrl = `${authConfig.issuer}/oauth2/authorize`;
+    //   this.oauthService.logoutUrl = `${authConfig.issuer}/logout`;
+    //   this.oauthService.tryLoginCodeFlow();
+    // }
+  }
+
+  private async startFlow() {
+    debugger;
+    if (window.location.hostname === 'localhost') {
+      console.log("Local flow");
+           this.oauthService.tokenEndpoint = `${authConfig.issuer}/oauth2/token`;
+      this.oauthService.loginUrl = `${authConfig.issuer}/oauth2/authorize`;
+      this.oauthService.logoutUrl = `${authConfig.issuer}/logout`;
+      // await this.oauthService.tryLoginCodeFlow();
+      // await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+         this.oauthService.initLoginFlow(); // redirects to Keycloak
+    } else {
+      console.log("Production flow");
+      this.oauthService.tokenEndpoint = `${authConfig.issuer}/oauth2/token`;
+      this.oauthService.loginUrl = `${authConfig.issuer}/oauth2/authorize`;
+      this.oauthService.logoutUrl = `${authConfig.issuer}/logout`;
+      await this.oauthService.tryLoginCodeFlow();
+    }
   }
 
   login() {
-    this.oauthService.initLoginFlow(); // redirects to Keycloak
+    // this.oauthService.initLoginFlow(); // redirects to Keycloak
+    this.startFlow();
   }
 
   logout() {

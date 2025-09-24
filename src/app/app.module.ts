@@ -55,11 +55,28 @@ export function initializeAuth(oauthService: OAuthService): () => Promise<void> 
   return async () => {
     oauthService.configure(authConfig);
     await oauthService.loadDiscoveryDocumentAndTryLogin();
-
+    oauthService.setupAutomaticSilentRefresh();
     // Auto login if no valid token
     if (!oauthService.hasValidAccessToken()) {
+      console.log("initCodeFlow");
       oauthService.initCodeFlow();
     }
+// 
+    // console.log("hostname = " + window.location.hostname);
+    // oauthService.configure(authConfig);
+    // oauthService.setupAutomaticSilentRefresh(); // refresh tokens automatically
+
+    // if (window.location.hostname === 'localhost') {
+    //   console.log("Local flow");
+    //   await oauthService.loadDiscoveryDocumentAndTryLogin();
+    // } else {
+    //   console.log("Production flow");
+    //   oauthService.tokenEndpoint = `${authConfig.issuer}/oauth2/token`;
+    //   oauthService.loginUrl = `${authConfig.issuer}/oauth2/authorize`;
+    //   oauthService.logoutUrl = `${authConfig.issuer}/logout`;
+    //   await oauthService.tryLoginCodeFlow();
+    // }
+
   };
 }
 
