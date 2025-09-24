@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1758725446255,
+  "timestamp": 1758726300435,
   "index": "/task-pwa/index.html",
   "assetGroups": [
     {
@@ -20,7 +20,7 @@
         "/task-pwa/chunk-URZPAQU4.js",
         "/task-pwa/favicon.ico",
         "/task-pwa/index.html",
-        "/task-pwa/main-GJGPGCCX.js",
+        "/task-pwa/main-VXSSLA6M.js",
         "/task-pwa/manifest.webmanifest",
         "/task-pwa/polyfills-FFHMD2TL.js",
         "/task-pwa/styles-5D4CAD37.css",
@@ -68,8 +68,8 @@
     "/task-pwa/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/task-pwa/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/task-pwa/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/task-pwa/index.html": "a7d809f5848f2df4817abab1318aed13a40a6034",
-    "/task-pwa/main-GJGPGCCX.js": "5f02f3a7f3cc1861e08d422e526a4a1a6ce49a88",
+    "/task-pwa/index.html": "52230fed2d38b7ed440bee29cb81cb2cfd15c9c2",
+    "/task-pwa/main-VXSSLA6M.js": "83f57eecc58fcc1cfb4e0e7d0a63505b66d28a2c",
     "/task-pwa/manifest.webmanifest": "20731e4b4576966f78846a201aa7ed37152f4802",
     "/task-pwa/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
     "/task-pwa/styles-5D4CAD37.css": "d1a70fee837222040a2a6678a6f50f3c2667c9f2",
