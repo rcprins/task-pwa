@@ -13,45 +13,18 @@ export class AuthService {
     this.oauthService.configure(authConfig);
        console.log("setupAutomaticSilentRefresh");
     this.oauthService.setupAutomaticSilentRefresh(); // refresh tokens automatically
-
-    // if (window.location.hostname === 'localhost') {
-    //   console.log("Local flow");
-    //   await this.oauthService.loadDiscoveryDocumentAndTryLogin();
-    // } else {
-    //   console.log("Production flow");
-    //   this.oauthService.tokenEndpoint = `${authConfig.issuer}/oauth2/token`;
-    //   this.oauthService.loginUrl = `${authConfig.issuer}/oauth2/authorize`;
-    //   this.oauthService.logoutUrl = `${authConfig.issuer}/logout`;
-    //   this.oauthService.tryLoginCodeFlow();
-    // }
-  }
-
-  private async startFlow() {
-    debugger;
-    if (window.location.hostname === 'localhost') {
-      console.log("Local flow");
-           this.oauthService.tokenEndpoint = `${authConfig.issuer}/oauth2/token`;
-      this.oauthService.loginUrl = `${authConfig.issuer}/oauth2/authorize`;
-      this.oauthService.logoutUrl = `${authConfig.issuer}/logout`;
-      // await this.oauthService.tryLoginCodeFlow();
-      // await this.oauthService.loadDiscoveryDocumentAndTryLogin();
-         this.oauthService.initLoginFlow(); // redirects to Keycloak
-    } else {
-      console.log("Production flow");
-      this.oauthService.tokenEndpoint = `${authConfig.issuer}/oauth2/token`;
-      this.oauthService.loginUrl = `${authConfig.issuer}/oauth2/authorize`;
-      this.oauthService.logoutUrl = `${authConfig.issuer}/logout`;
-      await this.oauthService.tryLoginCodeFlow();
-    }
   }
 
   login() {
-    // this.oauthService.initLoginFlow(); // redirects to Keycloak
-    this.startFlow();
+    this.oauthService.initLoginFlow();
   }
 
   logout() {
-    this.oauthService.logOut();
+    const logoutUrl = authConfig.logoutUrl + `?client_id=${authConfig.clientId}` + `&logout_uri=${encodeURIComponent(window.location.origin+ '/task-pwa')}`;
+
+    this.oauthService.logOut(false);
+
+    window.location.href = logoutUrl;
   }
 
   getIdToken(): string | null {
