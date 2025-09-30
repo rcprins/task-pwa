@@ -29,10 +29,10 @@ import { AuthConfig } from 'angular-oauth2-oidc';
  export const authConfig: AuthConfig = (window.location.hostname === 'localhost') ?
 {
 
-    issuer: 'http://localhost:18080/realms/logicsteel',
-    logoutUrl: 'http://localhost:18080/realms/logicsteel/protocol/openid-connect/logout',
+    issuer: 'https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_GhUsOZ95f',
+    logoutUrl: 'https://dev-auth.logicsteel.net/logout',
     redirectUri: 'http://localhost:4200/task-pwa/callback',
-    clientId: 'logicsteel-control',
+    clientId: '5su1ol6tfqlakvpg2fhsl8ke7s',
     responseType: 'code',
     scope: 'openid email',
     oidc: true,

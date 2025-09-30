@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --base-href /task-pwa/ && npx angular-cli-ghpages --dir=dist/task-pwa/browser"
+  "deploy": "ng build --configuration production --base-href ./ && npx angular-cli-ghpages --dir=dist/task-pwa/browser"
   },
   "private": true,
   "dependencies": {
