@@ -17,9 +17,9 @@ import { MatGridListModule} from '@angular/material/grid-list';
 import { MatTabsModule} from '@angular/material/tabs';
 import { QrGeneratorComponent } from './qr-generator-component/qr-generator-component.component';
 import { TaskListComponent } from "./tasks/list/task-list.component";
-import { TaskComponent2 } from './tasks/task/task.component';
+import { TaskComponent } from './tasks/task/task.component';
 import { AdhocTaskComponent } from './tasks/adhoc/adhoc-task/adhoc-task.component';
-import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
+import { OAuthEvent, OAuthModule, OAuthService, OAuthSuccessEvent } from 'angular-oauth2-oidc';
 import { authConfig } from './auth/auth.config';
 import { AppRoutingModule } from './app-routing.module';
 import { provideHttpClient } from '@angular/common/http';
@@ -56,6 +56,25 @@ export function initializeAuth(oauthService: OAuthService): () => Promise<void> 
     oauthService.configure(authConfig);
     await oauthService.loadDiscoveryDocument();
 
+
+
+oauthService.events.subscribe((e: OAuthEvent) => {
+  switch (e.type) {
+    case 'token_received':
+      console.log('New tokens received (login or refresh).');
+      break;
+
+    case 'token_refreshed':
+      console.log('Access token was refreshed:',
+                  (e as OAuthSuccessEvent).info);
+      break;
+
+    case 'token_expires':
+      console.log('Token is about to expire, scheduling refresh...');
+      break;
+  }
+});
+
     // Very important: this processes the redirect callback
     await oauthService.tryLoginCodeFlow();
     oauthService.setupAutomaticSilentRefresh();
@@ -91,7 +110,7 @@ export function initializeAuth(oauthService: OAuthService): () => Promise<void> 
         enabled: environment.production
     }),
     TaskListComponent,
-    TaskComponent2,
+    TaskComponent,
     AdhocTaskComponent,
     BarcodeScannerComponent
 ],

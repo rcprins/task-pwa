@@ -4,6 +4,7 @@ import { authConfig } from './auth.config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
   constructor(private oauthService: OAuthService) {
     this.configure();
   }
@@ -33,6 +34,10 @@ export class AuthService {
 
   getAccessToken(): string | null {
     return this.oauthService.getAccessToken();
+  }
+
+  getRefreshToken(): string | null {
+    return this.oauthService.getRefreshToken();
   }
 
   isLoggedIn(): boolean {

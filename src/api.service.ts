@@ -6,11 +6,12 @@ import { AuthService } from './app/auth/authentication-service';
 export class ApiService {
   constructor(private http: HttpClient, private auth: AuthService) {}
 
-  async getData() {
+  async getUsers() {
+
     const token = this.auth.getAccessToken();
-    return this.http.get('http://localhost:3000/data', {
+    return this.http.get('https://angular-ui-api.automation-dev.digi-steel-app.com/api/admin/getroles', {
       headers: new HttpHeaders({
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       })
     }).toPromise();
   }

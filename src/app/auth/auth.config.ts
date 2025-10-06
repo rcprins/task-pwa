@@ -41,7 +41,6 @@ import { AuthConfig } from 'angular-oauth2-oidc';
     strictDiscoveryDocumentValidation: false,
     useSilentRefresh: true,
     sessionChecksEnabled: true,
-
 } :
 {
     issuer: 'https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_GhUsOZ95f',

@@ -23,7 +23,7 @@ import { TabComponent } from '../../interfaces/tab-component.inferface';
     MatButtonModule
   ]
 })
-export class TaskComponent2 implements OnInit, TabComponent {
+export class TaskComponent implements OnInit, TabComponent {
 
   _task = {} as Task;
 
@@ -42,7 +42,7 @@ export class TaskComponent2 implements OnInit, TabComponent {
   get task(): Task {
     return this._task;
   }
-  
+
   TaskState = TaskState;
 
   constructor(private taskService: TaskService) {}

@@ -15,11 +15,12 @@ import { map, Observable } from 'rxjs';
 })
 export class TaskListComponent implements TabComponent{
 
-  @Output() 
+  @Output()
    taskSelected = new EventEmitter<Task>();
 
   taskDatasource = new MatTableDataSource<Task>();
-  displayedColumns = ["id", 'type', 'state', 'timestamp'];
+  // displayedColumns = ["id", 'type', 'state', 'timestamp'];
+  displayedColumns = ["id", 'type', 'state'];
   tasks: Task[] = [];
 
   constructor(private taskService: TaskService) {
@@ -54,7 +55,7 @@ export class TaskListComponent implements TabComponent{
        this.applyToUI(tasks);
     });
   }
-    
+
   loadLocalTasks(): void {
     this.taskService.getAllLocal().subscribe((tasks) => {
        this.applyToUI(tasks);
@@ -63,7 +64,9 @@ export class TaskListComponent implements TabComponent{
 
   private applyToUI(tasks: Task[]) {
     this.tasks = tasks.filter((task) => task.state != TaskState.Completed);
-    this.taskDatasource = new MatTableDataSource<Task>(this.tasks);
+    this.taskDatasource = new MatTableDataSource<Task>(
+      this.tasks.sort((a, b) => (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0))
+    );
   }
 
   selectTask(task: Task) {

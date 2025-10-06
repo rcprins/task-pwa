@@ -1,8 +1,7 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
-import { TaskService } from './services/task.service';
 import { Task } from './models/task.model';
-import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { TaskComponent2 } from './tasks/task/task.component';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { TaskComponent } from './tasks/task/task.component';
 import { TaskListComponent } from './tasks/list/task-list.component';
 import { AdhocTaskComponent } from './tasks/adhoc/adhoc-task/adhoc-task.component';
 import { TabComponent } from './interfaces/tab-component.inferface';
@@ -17,7 +16,11 @@ import { ApiService } from '../api.service';
   standalone:false
 })
 export class AppComponent {
-  title = 'Mobile tracking app'; 
+alertRefreshToken() {
+  alert("Refresh token: " + this.auth.getRefreshToken());
+}
+
+  title = 'Mobile tracking app';
   isOnline: boolean = navigator.onLine;
 
   @ViewChild('tabGroup')
@@ -27,7 +30,7 @@ export class AppComponent {
   taskListTabComponent!: TaskListComponent;
 
   @ViewChild('taskTabComponent')
-  taskTabComponent!: TaskComponent2;
+  taskTabComponent!: TaskComponent;
 
   @ViewChild('adhocTaskTabComponent')
   adhocTaskTabComponent!:AdhocTaskComponent;
@@ -39,12 +42,13 @@ export class AppComponent {
 
   apiData: any;
 
-  constructor(public auth: AuthService, private api: ApiService) {}
-
-  async callApi() {
-    this.apiData = await this.api.getData();
+  constructor(public auth: AuthService, private api: ApiService) {
   }
-  
+
+  async getUsers() {
+    this.apiData = await this.api.getUsers();
+  }
+
   @HostListener('window:online')
   @HostListener('window:offline')
   updateOnlineStatus() {
@@ -66,7 +70,7 @@ export class AppComponent {
           alert("All done for today! Wishing you a relaxing evening.")
           this.tabGroup.selectedIndex = 0;
       }
-    } 
+    }
   }
 
   setNextTaskComponentInput() {
@@ -82,7 +86,7 @@ export class AppComponent {
         this.taskListTabComponent.selected();
         this._activeTabComponent = this.taskListTabComponent;
         break;
-      case 1: 
+      case 1:
         this._activeTabComponent = this.taskTabComponent;
         this.setTaskComponentInput();
         this.taskTabComponent.selected();
@@ -102,7 +106,7 @@ export class AppComponent {
       this.taskListTabComponent.getFirstTask().subscribe(task => {
         this.taskTabComponent.task = task;
       })
-      
+
     }
   }
 }
