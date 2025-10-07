@@ -1,6 +1,22 @@
 <mat-card-content>
-    <label>ASSEMBLY</label>
-    <div>
-        <img mat-card-image src="./assets/assembly-drawing.png" alt="Example Image">
+
+  <div style="display:flex; gap:24px; align-items:flex-start;">
+
+    <div style="flex:1;">
+      <label>ASSEMBLY</label>
+      <div>
+        <img mat-card-image src="./assets/assembly-drawing.png" alt="Example Image" style="max-width:100%; height:250px;">
+      </div>
     </div>
+
+    <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+      <label>INSTRUCTIONS</label>
+      <ul>
+        <li>Confirm WPS (Welding Procedure Specification)</li>
+        <li>Tack Welding</li>
+        <li>Welding</li>
+        <li>Post-Weld Cleaning</li>
+    </ul>
+    </div>
+  </div>
 </mat-card-content>

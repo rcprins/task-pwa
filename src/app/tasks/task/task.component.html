@@ -1,4 +1,4 @@
-<mat-card *ngIf="task != undefined">
+<mat-card *ngIf="task != undefined" style="margin: 8px;">
   <!-- ID -->
   <mat-card-content>
     <label>ID:</label> {{task.id}}
@@ -18,9 +18,9 @@
       <app-qr-generator [value]="getQRCodeValue()"></app-qr-generator>
     </div>
   </mat-card-content>
-
+</mat-card>
   <!-- Task Details -->
-  <mat-card>
+  <mat-card style="margin: 8px;">
     <ng-container #taskDetails></ng-container>
   </mat-card>
 
@@ -33,4 +33,4 @@
       <button mat-flat-button type="button" (click)="finish()">Finish</button>
     </mat-card-actions>
   </mat-toolbar>
-</mat-card>
+

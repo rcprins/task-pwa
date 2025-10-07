@@ -88,7 +88,6 @@ export class TaskComponent implements OnInit, TabComponent {
   }
 
   private async loadTaskDetails() {
-    if (this.task == undefined) return;
     const plugin = await pluginLoader.loadPlugin(this.task.type);
     const componentType = plugin.getTaskDetailsComponent();
     this.taskDetailsContainer.clear();

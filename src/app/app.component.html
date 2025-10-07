@@ -3,7 +3,7 @@
     You are currently offline
   </div>
     <button mat-flat-button type="button" *ngIf="auth.isLoggedIn()" (click)="auth.logout()">Logout</button>
-    <button mat-flat-button type="button" *ngIf="auth.isLoggedIn()" (click)="this.alertRefreshToken()">Get Users</button>
+    <!-- <button mat-flat-button type="button" *ngIf="auth.isLoggedIn()" (click)="this.alertRefreshToken()">Get Users</button> -->
     <div *ngIf="auth.isLoggedIn()">
     <p>Welcome, {{ auth.getIdentityClaims()?.email }}</p>
   <mat-tab-group #tabGroup (selectedTabChange)="onTabChange($event)" >

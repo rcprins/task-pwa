@@ -17,11 +17,14 @@
         <th mat-header-cell *matHeaderCellDef> Location </th>
         <td mat-cell *matCellDef="let element"> {{element.location}} </td>
     </ng-container>
-    
-    <!-- <ng-container matColumnDef="picked">
-        <th mat-header-cell *matHeaderCellDef> Picked </th>
-        <td mat-cell> <mat-checkbox></mat-checkbox> </td>
-    </ng-container> -->
+
+    <!-- ✅ Checkbox column -->
+    <ng-container matColumnDef="picked">
+      <th mat-header-cell *matHeaderCellDef> Picked </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox></mat-checkbox>
+      </td>
+    </ng-container>
 
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

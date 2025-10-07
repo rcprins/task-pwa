@@ -9,8 +9,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     selector: 'material-task',
     standalone: true,
     templateUrl: './material-task-details.component.html',
-    imports: [MatCardModule, CommonModule, MatTableModule, MatCheckboxModule] 
+    imports: [MatCardModule, CommonModule, MatTableModule, MatCheckboxModule]
 })
 export class MaterialTaskDetailsComponent extends BaseTaskDetailsComponent {
-    displayedColumns: string[] = ['profile', 'length', 'location'];
+    displayedColumns: string[] = ['profile', 'length', 'location', 'picked'];
 }

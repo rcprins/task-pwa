@@ -39,8 +39,12 @@ export class TaskListComponent implements TabComponent{
   }
 
   getFirstTask(): Observable<Task> {
+    debugger;
     return this.taskService.getAll().pipe(
-      map(tasks => tasks.filter(task => task.state != TaskState.Completed )),
+      map(tasks =>
+        tasks
+          .filter(task => task.state != TaskState.Completed )
+          .sort((a, b) => (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0))),
       map(tasks => tasks[0])
     );
   }

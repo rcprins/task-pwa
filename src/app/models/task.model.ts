@@ -14,4 +14,4 @@ export interface Task extends LocalEntity {
     timestamp: Date;
     state: TaskState;
     workItems: WorkItem[];
-  }  
+  }

@@ -1,7 +1,7 @@
 <table mat-table [dataSource]="taskDatasource" class="mat-elevation-z8">
 <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>ID</th>
-    <td mat-cell *matCellDef="let task">{{task.id}}</td>
+    <td mat-cell *matCellDef="let task">{{task.id | slice:0:8}}</td>
 </ng-container>
 <ng-container matColumnDef="type">
     <th mat-header-cell *matHeaderCellDef>TYPE</th>
@@ -11,10 +11,10 @@
     <th mat-header-cell *matHeaderCellDef>STATE</th>
     <td mat-cell *matCellDef="let task">{{task.state}}</td>
 </ng-container>
-<ng-container matColumnDef="timestamp">
+<!-- <ng-container matColumnDef="timestamp">
     <th mat-header-cell *matHeaderCellDef>TIME</th>
     <td mat-cell *matCellDef="let task">{{task.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-</ng-container>
+</ng-container> -->
 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 <tr mat-row *matRowDef="let row; columns: displayedColumns;let task" (click)="selectTask(task)"></tr>
 </table>
