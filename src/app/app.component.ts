@@ -16,9 +16,7 @@ import { ApiService } from '../api.service';
   standalone:false
 })
 export class AppComponent {
-alertRefreshToken() {
-  alert("Refresh token: " + this.auth.getRefreshToken());
-}
+
 
   title = 'Mobile tracking app';
   isOnline: boolean = navigator.onLine;
@@ -108,5 +106,14 @@ alertRefreshToken() {
       })
 
     }
+  }
+  alertIDToken() {
+    alert("ID token: " + this.auth.getIdToken());
+  }
+  alertAccessToken() {
+    alert("Access token: " + this.auth.getAccessToken());
+  }
+  alertRefreshToken() {
+    alert("Refresh token: " + this.auth.getRefreshToken());
   }
 }
